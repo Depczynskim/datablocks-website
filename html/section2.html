@@ -1,0 +1,70 @@
+# Section 2: Services & About - HTML Structure
+
+## Services Component
+```html
+<section class="services" id="services">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 class="service-title">AI Readiness Assessment</h3>
+                <p class="service-description">We provide comprehensive evaluations to determine your organization's preparedness for AI integration, identifying opportunities and challenges.</p>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+            
+            <div class="service-card">
+                <h3 class="service-title">AI Strategy Development</h3>
+                <p class="service-description">Our experts work with you to create a tailored AI adoption roadmap aligned with your organizational goals and resources.</p>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+            
+            <div class="service-card">
+                <h3 class="service-title">AI Training & Workshops</h3>
+                <p class="service-description">Custom training programs designed to build AI literacy and skills across all levels of your organization.</p>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+        
+        <!-- Animation Hook for Services Section -->
+        <div class="highlight-row" id="services-highlight"></div>
+    </div>
+</section>
+
+About Component
+
+<section class="about" id="about">
+    <div class="container">
+        <h2 class="section-title">About DataBlocks</h2>
+        
+        <div class="about-content">
+            <div class="about-text">
+                <p>DataBlocks was founded with a mission to democratize access to AI technologies for small and medium enterprises and local government authorities. We believe that these organizations have unique needs and challenges when it comes to AI adoption, and our goal is to provide tailored support and resources.</p>
+                <p>Our team consists of AI specialists, change management experts, and industry professionals who understand the specific contexts of SMEs and local governments. We work collaboratively with organizations to build their AI capabilities step by step, ensuring sustainable and responsible implementation.</p>
+                <p>As a charity, we are committed to making AI accessible to all organizations, regardless of their size or resources. We offer tiered services to meet different needs and budgets, with some resources available free of charge.</p>
+                <a href="#" class="btn btn-primary" style="margin-top: 20px;">Our Mission & Values</a>
+            </div>
+            
+            <div class="about-image">
+                <div class="about-box">
+                    <div class="about-box-shape about-box-shape-1"></div>
+                    <div class="about-box-shape about-box-shape-2"></div>
+                    <div class="about-box-shape about-box-shape-3"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Animation Hook for About Section -->
+        <div class="highlight-row" id="about-highlight"></div>
+    </div>
+</section>
+
+Notes on Implementation
+
+Services Grid: The services section uses a responsive grid layout that displays 3 items per row on desktop, 2 on tablet, and 1 on mobile.
+Service Cards: Each card follows a consistent pattern with a title, description, and action button. The blue accent line on the left side provides visual interest.
+About Layout: The about section uses a two-column layout on desktop and tablet that switches to a single column on mobile.
+Decorative Elements: The about-box contains geometric shapes that reinforce the Bauhaus-inspired design language of the site.
+Animation Hooks: Two highlight-row elements are included - one at the end of the services section and one at the end of the about section. The animation system will use these as reference points for the highlight squares.
+Container Usage: Both sections use the shared container class for consistent margins and maximum width.
+Semantic Structure: The HTML uses semantic markup with appropriate heading levels to maintain accessibility and SEO best practices.

@@ -1,0 +1,54 @@
+.highlight-row {
+    display: flex;
+    height: 24px;  /* Updated to match logo square height */
+    margin: 0;  /* Remove margin */
+    position: relative;
+    width: 100%;
+}
+
+/* Ensure container has proper spacing */
+.container {
+    position: relative;
+    padding-bottom: 60px; /* Space for highlight row */
+}
+
+.highlight-squares-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.highlight-square {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: var(--primary-red);
+    border: none;  /* Removed border to match logo square style */
+    border-radius: 0;  /* Removed border radius to match logo square style */
+    box-shadow: none;  /* Removed shadow to match logo square style */
+    transition: all 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Position highlight row at bottom of container */
+.container .highlight-row {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    .highlight-square {
+        background-color: rgba(40, 40, 40, 0.9);
+        border-color: #3498db;
+    }
+    
+    .highlight-row {
+        /* No background highlight needed */
+    }
+} 

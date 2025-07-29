@@ -1,0 +1,214 @@
+/* Articles Section */
+.articles {
+    padding: 10px 0 80px 0;
+    background-color: transparent;
+}
+
+/* Re-using section title styles from Section 2 */
+.section-title {
+    /* This assumes the section-title styling from Section 2 is already defined */
+    /* If in a separate CSS file, you'd need to repeat the definition here */
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.articles-cta {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Article Card */
+.article-card {
+    background-color: var(--bauhaus-white);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform var(--transition-speed) ease, 
+                box-shadow var(--transition-speed) ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;  /* Ensure relative positioning */
+}
+
+/* Aggressively remove any FEATURED labels */
+.article-card::before,
+.article-card::after,
+.article-card > *:first-child:not(.article-content),
+.article-card span,
+.article-card div:not(.article-content):not(.article-image),
+[class*="featured"],
+[class*="Featured"],
+[class*="FEATURED"],
+div[style*="background-color: rgb(0, 0, 255)"],
+div[style*="background: rgb(0, 0, 255)"],
+div[style*="background-color: blue"],
+div[style*="background: blue"],
+div[style*="background-color:#0000ff"],
+div[style*="background:#0000ff"],
+div[style*="background-color: #0000ff"],
+div[style*="background: #0000ff"],
+.featured-badge,
+.featured-tag,
+.featured-label,
+.article-featured,
+*[data-featured],
+*[data-featured="true"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    pointer-events: none !important;
+    clip: rect(0 0 0 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    transform: scale(0) !important;
+    -webkit-transform: scale(0) !important;
+    -moz-transform: scale(0) !important;
+    -ms-transform: scale(0) !important;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.article-image {
+    display: none;
+}
+
+.article-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Make content area expand to fill available space */
+}
+
+.article-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.article-excerpt {
+    margin-bottom: 15px;
+    color: #555;
+    flex-grow: 1; /* Allow excerpt to expand, pushing date and button to bottom */
+}
+
+.article-date {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+/* Button positioning at the bottom of the card */
+.article-content .btn {
+    align-self: flex-start; /* Align button to the left */
+    margin-top: auto; /* Push button to bottom when excerpt is short */
+}
+
+/* Focus and Active States */
+.article-card:focus-within {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 4px;
+}
+
+.article-content .btn:focus {
+    outline: 2px solid var(--primary-blue);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 0, 255, 0.2);
+}
+
+/* Animation Hook */
+.articles .highlight-row {
+    height: 10px; /* Reduced height */
+    margin: 0; /* Remove extra margin */
+}
+
+/* Featured Article (First Card) */
+.article-card:first-child {
+    position: relative;
+}
+
+/* Hide the blue "FEATURED" badge that appears on the first article card */
+.article-card:first-child::before,
+.article-card:first-child .featured-label,
+.featured-label {
+    display: none !important; /* Ensure it never shows up */
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+    .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Optional: Make first article span full width on tablet */
+    /*
+    .article-card:first-child {
+        grid-column: 1 / -1;
+    }
+    .article-card:first-child .article-image {
+        height: 300px;
+    }
+    */
+}
+
+@media (min-width: 1024px) {
+    .articles-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Reset first article to normal width on desktop if using the featured article style above */
+    /*
+    .article-card:first-child {
+        grid-column: auto;
+    }
+    .article-card:first-child .article-image {
+        height: 200px;
+    }
+    */
+    .article-title {
+        font-size: 22px;
+    }
+}
+
+/* Dark Mode Styles */
+body.dark-mode .articles {
+    background-color: #222;
+}
+
+body.dark-mode .article-card {
+    background-color: #333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .article-title {
+    color: #f5f5f5;
+}
+
+body.dark-mode .article-date {
+    color: #bbb;
+}
+
+body.dark-mode .article-image {
+    background-color: #444;
+}
+
+body.dark-mode .article-card:focus-within {
+    outline: 2px solid var(--primary-yellow);
+}
+
+body.dark-mode .article-content .btn:focus {
+    box-shadow: 0 0 0 4px rgba(255, 255, 0, 0.2);
+}

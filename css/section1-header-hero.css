@@ -1,0 +1,374 @@
+/* Base Variables */
+:root {
+    --primary-red: #FF0000;
+    --primary-blue: #0000FF;
+    --primary-yellow: #FFFF00;
+    --bauhaus-black: #000000;
+    --bauhaus-white: #FFFFFF;
+    --gray-light: #f5f5f5;
+    --gray-medium: #e0e0e0;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    line-height: 1.6;
+    color: var(--bauhaus-black);
+    background-color: var(--bauhaus-white);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--bauhaus-white);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--bauhaus-black);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-square {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-color: var(--primary-red);
+}
+
+/* Desktop Navigation */
+.nav-desktop {
+    display: none;
+}
+
+.nav-desktop ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-desktop li {
+    margin-left: 30px;
+}
+
+.nav-desktop a {
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+    color: var(--bauhaus-black);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+.nav-desktop a:hover {
+    color: var(--primary-blue);
+}
+
+.nav-desktop a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-blue);
+    transition: width var(--transition-speed) ease;
+}
+
+.nav-desktop a:hover::after {
+    width: 100%;
+}
+
+/* Mobile Navigation Toggle */
+.nav-toggle {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--bauhaus-black);
+    margin: 5px 0;
+    transition: transform var(--transition-speed) ease;
+}
+
+/* Mobile Navigation Menu */
+.nav-mobile {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: var(--bauhaus-white);
+    overflow: hidden;
+    transition: height var(--transition-speed) ease;
+    z-index: 999;
+}
+
+.nav-mobile.active {
+    height: calc(100vh - 80px);
+}
+
+.nav-mobile ul {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+}
+
+.nav-mobile li {
+    margin-bottom: 20px;
+}
+
+.nav-mobile a {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--bauhaus-black);
+    text-decoration: none;
+}
+
+/* Hero Section */
+.hero {
+    padding-top: 40px;
+    padding-bottom: 40px; /* reduced bottom padding */
+    background-color: var(--bauhaus-white);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Title Section - Fixed Height Approach */
+.title-section {
+    height: 150px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.typewriter-text {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 10px;
+    position: relative;
+    display: block;
+    min-height: 43px; /* Ensure consistent height even when empty */
+}
+
+/* Remove the cursor-blink animation since we're handling it in JS */
+@keyframes cursor-blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    max-width: 600px;
+}
+
+/* Hero Section Decorative Shapes */
+.hero-shapes {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+.shape {
+    position: absolute;
+}
+
+/* Removed .shape-1, .shape-2, .shape-3 styles */
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition-speed) ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: var(--bauhaus-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-red);
+    color: var(--bauhaus-white);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-blue);
+    color: var(--bauhaus-white);
+}
+
+/* Animation Hook */
+.highlight-row {
+    display: flex;
+    height: 10px; /* reduced height */
+    margin: 0; /* remove extra margin */
+    position: relative;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+    .title-section {
+        height: 170px;
+    }
+    
+    .hero-title, .typewriter-text {
+        font-size: 42px;
+    }
+
+    .hero-subtitle {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .title-section {
+        height: 200px;
+    }
+    
+    .hero-title, .typewriter-text {
+        font-size: 48px;
+    }
+    
+    .nav-desktop {
+        display: block;
+    }
+
+    .nav-toggle {
+        display: none;
+    }
+}
+
+/* Navigation toggle animation */
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Snake Game Section */
+body .snake-game-section {
+    padding: 80px 0;
+    background-color: var(--bauhaus-white) !important;
+    position: relative;
+}
+
+.snake-description {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 18px;
+    color: var(--bauhaus-black);
+}
+
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--bauhaus-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#snakeCanvas {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: var(--bauhaus-white);
+    border: 2px solid var(--primary-blue);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.game-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.score {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--bauhaus-black);
+    font-family: 'Roboto Mono', monospace;
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        padding: 10px;
+    }
+
+    #snakeCanvas {
+        height: 300px;
+    }
+
+    .game-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

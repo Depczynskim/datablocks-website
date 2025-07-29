@@ -1,0 +1,103 @@
+## Contact Section
+```html
+<section class="contact" id="contact">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        
+        <div class="contact-form">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="organization" class="form-label">Organization</label>
+                    <input type="text" id="organization" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea id="message" class="form-control" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+            
+            <!-- Success message (hidden by default) -->
+            <div class="form-success" id="formSuccess" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h3>Message Sent!</h3>
+                <p>Thank you for contacting us. We'll get back to you shortly.</p>
+            </div>
+        </div>
+        
+        <!-- Animation Hook for Contact Section -->
+        <div class="highlight-row" id="contact-highlight"></div>
+    </div>
+</section>
+
+Footer Section
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <span class="footer-logo-square"></span>
+                    DataBlocks
+                </div>
+                <p>Supporting SMEs and local governments on their AI journey.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-icon" aria-label="Facebook">FB</a>
+                    <a href="#" class="social-icon" aria-label="Twitter">TW</a>
+                    <a href="#" class="social-icon" aria-label="LinkedIn">LI</a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul class="footer-nav">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#articles">Articles</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Contact Information</h3>
+                <p class="contact-item">Email: <a href="mailto:info@datablocks.co.uk">info@datablocks.co.uk</a></p>
+                <p class="contact-item">Phone: <a href="tel:+441234567890">+44 123 456 7890</a></p>
+                <p class="contact-item">Address: London, UK</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 DataBlocks. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+Notes on Implementation
+
+Contact Form: The form includes four fields - name, email, organization, and message. Only organization is optional. The form has proper validation attributes and is setup for JavaScript validation and submission handling.
+Success Message: A hidden success message element is included, which will be shown after successful form submission.
+Footer Structure: The footer uses a three-column grid layout with:
+
+Logo, tagline, and social media links in the first column
+Quick navigation links in the second column
+Contact information in the third column
+
+
+Semantic Elements: Proper semantic HTML5 elements are used throughout, with appropriate heading levels and ARIA attributes where needed.
+Accessibility: Links include descriptive text, form fields have proper labels, and social media icons have aria-labels.
+Animation Hook: A highlight-row element is included for integration with the animation system.
+Contact Information: Email and phone links are properly formatted with mailto: and tel: protocols for better mobile usability.
+Copyright Notice: A standard copyright notice is included at the bottom of the footer.
