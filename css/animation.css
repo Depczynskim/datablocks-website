@@ -9,7 +9,7 @@
 /* Ensure container has proper spacing */
 .container {
     position: relative;
-    padding-bottom: 60px; /* Space for highlight row */
+    padding-bottom: 30px; /* Reduced space for highlight row */
 }
 
 .highlight-squares-container {

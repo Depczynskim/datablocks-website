@@ -103,18 +103,176 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial order update after first positioning
     setTimeout(updateCurrentSquareOrder, 600);
 
+    // Simple transition queue so we never skip sections
+    let pendingTransitions = [];
+    let inFlightTargetIndex = null;
+
+    function buildPathFromTo(startIndex, targetIndex) {
+        const steps = [];
+        if (targetIndex > startIndex) {
+            for (let i = startIndex + 1; i <= targetIndex; i++) steps.push(i);
+        } else if (targetIndex < startIndex) {
+            for (let i = startIndex - 1; i >= targetIndex; i--) steps.push(i);
+        }
+        return steps;
+    }
+
+    function processQueue() {
+        if (isAnimating) return;
+        if (pendingTransitions.length === 0) return;
+
+        const nextIndex = pendingTransitions.shift();
+        const direction = nextIndex > currentSectionIndex ? 'down' : 'up';
+        isAnimating = true;
+        inFlightTargetIndex = nextIndex;
+        animateSnake(currentSectionIndex, nextIndex, direction)
+            .then(() => {
+                currentSectionIndex = nextIndex;
+                inFlightTargetIndex = null;
+                isAnimating = false;
+                processQueue();
+            })
+            .catch((error) => {
+                console.warn(`Snake ${direction} animation failed:`, error);
+                isAnimating = false;
+                positionSquaresInRow(currentSectionIndex); // Fallback
+                pendingTransitions = [];
+                inFlightTargetIndex = null;
+            });
+    }
+
+    function enqueueTransitionTo(targetIndex) {
+        const startIndex = inFlightTargetIndex ?? currentSectionIndex;
+        if (targetIndex === startIndex) return; // Nothing to do
+        // Replace any stale queued transitions with a fresh path from the effective start to target
+        pendingTransitions = buildPathFromTo(startIndex, targetIndex);
+        // Reset neighbor hysteresis when committing to a transition
+        pendingNeighborIndex = null;
+        neighborEnterSince = 0;
+        processQueue();
+    }
+
+    // Track scroll direction to prevent opposite-direction moves
+    let lastScrollY = window.scrollY;
+    let scrollDirection = null; // 'up' | 'down' | null
+    let rafToken = null;
+    let directionLockUntil = 0; // timestamp until which direction is trusted
+    let scrollIdleTimer = null;
+    const SCROLL_IDLE_MS = 140;
+    const ENTER_THRESHOLD = 0.58; // neighbor must reach this visibility
+    const EXIT_THRESHOLD = 0.38;  // current should be below this visibility
+    const HYSTERESIS_MS = 120;    // neighbor must stay above ENTER_THRESHOLD for this long
+    let pendingNeighborIndex = null;
+    let neighborEnterSince = 0;
+
+    function getNearestSectionIndexByViewport() {
+        const viewportMid = window.innerHeight / 2;
+        let bestIndex = currentSectionIndex;
+        let bestScore = Infinity;
+        sections.forEach((sec, idx) => {
+            if (!sec) return;
+            const r = sec.getBoundingClientRect();
+            const secMid = (r.top + r.bottom) / 2;
+            const dist = Math.abs(secMid - viewportMid);
+            if (dist < bestScore) {
+                bestScore = dist;
+                bestIndex = idx;
+            }
+        });
+        return bestIndex;
+    }
+
+    function maybeCorrectSection() {
+        if (isAnimating || pendingTransitions.length > 0) return;
+        const nearest = getNearestSectionIndexByViewport();
+        if (nearest !== currentSectionIndex) {
+            enqueueTransitionTo(nearest);
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        if (rafToken) return;
+        rafToken = requestAnimationFrame(() => {
+            const y = window.scrollY;
+            if (Math.abs(y - lastScrollY) > 2) {
+                scrollDirection = y > lastScrollY ? 'down' : 'up';
+                lastScrollY = y;
+                directionLockUntil = performance.now() + 260; // keep direction for ~260ms
+            }
+            rafToken = null;
+        });
+        // Scroll idle correction
+        if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+        scrollIdleTimer = setTimeout(maybeCorrectSection, SCROLL_IDLE_MS);
+    }, { passive: true });
+
     const observerOptions = {
         root: null,
-        threshold: [0.4, 0.6],
+        threshold: [0.25, 0.5, 0.8],
         rootMargin: '-10% 0px -10% 0px'
     };
 
     const sectionObserver = new IntersectionObserver((entries) => {
-        if (isAnimating) {
+        // Build a quick lookup for entries
+        const entryByTarget = new Map(entries.map(e => [e.target, e]));
+
+        const now = performance.now();
+        const dirLocked = now < directionLockUntil ? (scrollDirection === 'down' || scrollDirection === 'up') : false;
+
+        if (dirLocked) {
+            const toward = scrollDirection; // 'down' or 'up'
+            const step = toward === 'down' ? 1 : -1;
+            const neighborIndex = currentSectionIndex + step;
+
+            // Prefer neighbor if visible enough
+            if (neighborIndex >= 0 && neighborIndex < sections.length) {
+                const neighborEntry = entryByTarget.get(sections[neighborIndex]);
+                const currentEntry = entryByTarget.get(sections[currentSectionIndex]);
+                const neighborRatio = neighborEntry?.intersectionRatio ?? 0;
+                const currentRatio = currentEntry?.intersectionRatio ?? 0;
+
+                if (neighborEntry && neighborEntry.isIntersecting && neighborRatio >= ENTER_THRESHOLD && currentRatio <= EXIT_THRESHOLD && (neighborRatio - currentRatio) >= 0.1) {
+                    if (pendingNeighborIndex !== neighborIndex) {
+                        pendingNeighborIndex = neighborIndex;
+                        neighborEnterSince = now;
+                    }
+                    if (now - neighborEnterSince >= HYSTERESIS_MS) {
+                        enqueueTransitionTo(neighborIndex);
+                        pendingNeighborIndex = null;
+                        neighborEnterSince = 0;
+                        return;
+                    }
+                } else {
+                    // Reset hysteresis if conditions are not met
+                    pendingNeighborIndex = null;
+                    neighborEnterSince = 0;
+                }
+            }
+
+            // Otherwise, find the strongest visible section in the intended direction
+            let bestIdx = null;
+            let bestRatio = 0;
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const idx = sections.indexOf(e.target);
+                if (idx === -1) return;
+                if ((toward === 'down' && idx > currentSectionIndex) || (toward === 'up' && idx < currentSectionIndex)) {
+                    if (e.intersectionRatio > bestRatio) {
+                        bestRatio = e.intersectionRatio;
+                        bestIdx = idx;
+                    }
+                }
+            });
+            if (bestIdx != null && bestRatio >= 0.7) {
+                enqueueTransitionTo(bestIdx);
+                return;
+            }
+
+            // If nothing suitable, defer to scroll idle correction
             return;
         }
-
-        // Find the most visible intersecting section from all entries
+ 
+        // Fallback: pick the most visible intersecting section when direction is unknown
         let mostVisibleEntry = null;
         for (const entry of entries) {
             if (entry.isIntersecting) {
@@ -123,30 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-
-        // Only proceed if a section is sufficiently visible
-        if (!mostVisibleEntry || mostVisibleEntry.intersectionRatio < 0.4) {
-            return;
-        }
-
+        if (!mostVisibleEntry || mostVisibleEntry.intersectionRatio < 0.5) return;
         const sectionIndex = Array.from(sections).indexOf(mostVisibleEntry.target);
-
-        // Do nothing if the most visible section is the one we're already on
-        if (sectionIndex === -1 || sectionIndex === currentSectionIndex) {
-            return;
-        }
-
-        // Debounce to prevent animations from firing too rapidly
-        const now = Date.now();
-        if (now - lastAnimationTime < 1500) {
-            return;
-        }
-
-        const direction = sectionIndex > currentSectionIndex ? 'down' : 'up';
-        isAnimating = true;
-        lastAnimationTime = now;
-        updateSquareOrder(currentSectionIndex, sectionIndex, direction);
-        
+        if (sectionIndex === -1 || sectionIndex === currentSectionIndex) return;
+        enqueueTransitionTo(sectionIndex);
+         
     }, observerOptions);
 
     sections.forEach((sec) => {

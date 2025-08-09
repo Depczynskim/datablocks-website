@@ -312,7 +312,7 @@ header {
 
 /* Snake Game Section */
 body .snake-game-section {
-    padding: 80px 0;
+    padding: 20px 0 80px 0;
     background-color: var(--bauhaus-white) !important;
     position: relative;
 }

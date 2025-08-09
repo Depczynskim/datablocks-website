@@ -56,8 +56,7 @@
                 </div>
                 
                 <p class="hero-subtitle">At DataBlocks, we empower small and medium businesses and local authorities to confidently adopt AI — with privacy, clarity, and real-world impact.</p>
-                <a href="#services" class="btn btn-primary">Explore Our Services</a>
-                <a href="#contact" class="btn btn-secondary" style="margin-left: 10px;">Get In Touch</a>
+                
             </div>
             
             <div class="hero-shapes">
@@ -75,40 +74,102 @@
             <h2 class="section-title">Our Services</h2>
             
             <div class="services-grid">
+                
                 <div class="service-card">
                     <h3 class="service-title">E-commerce Strategy & Analytics</h3>
                     <p class="service-description">We help small e-commerce businesses develop targeted strategies, set up analytics infrastructure, and optimize ads for purchase intent. Focus on growing your business while we handle the technical details and provide data-driven insights.</p>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
+                    <a href="#" class="btn btn-secondary" id="ecom-learn-more">Learn More</a>
                 </div>
                 
                 <div class="service-card">
-                    <h3 class="service-title">AI Strategy Development</h3>
-                    <p class="service-description">Our experts work with you to create a tailored AI adoption roadmap aligned with your organizational goals and resources.</p>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
+                    <h3 class="service-title">Custom Analytical Tools</h3>
+                    <p class="service-description">We build bespoke data analytics solutions for small businesses and local authorities. Transform your raw data into actionable insights with custom dashboards, automated reporting, and real-time monitoring systems tailored to your specific needs.</p>
+                    <a href="#" class="btn btn-secondary" id="analytics-learn-more">Learn More</a>
                 </div>
                 
                 <div class="service-card">
-                    <h3 class="service-title">AI Training & Workshops</h3>
-                    <p class="service-description">Custom training programs designed to build AI literacy and skills across all levels of your organization.</p>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
+                    <h3 class="service-title">AI Implementation & Training</h3>
+                    <p class="service-description">We guide small businesses through AI adoption from initial assessment to full implementation. Identify opportunities, develop deployment strategies, and train your team to leverage AI tools effectively for sustainable business growth.</p>
+                    <a href="#" class="btn btn-secondary" id="implementation-learn-more">Learn More</a>
                 </div>
                 
-                <div class="service-card">
-                    <h3 class="service-title">Implementation Support</h3>
-                    <p class="service-description">Hands-on assistance with pilot projects and AI tool implementation, ensuring smooth integration with existing systems.</p>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
-                </div>
                 
-                <div class="service-card">
-                    <h3 class="service-title">Ethical AI Framework</h3>
-                    <p class="service-description">Guidance on developing responsible AI practices, ensuring compliance with regulations and ethical standards.</p>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+            
+            <!-- E-commerce Modal Popup -->
+            <div id="ecom-modal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <button class="modal-close" id="ecom-modal-close" aria-label="Close">&times;</button>
+                    <h2>Data-Driven Strategy for Small E-commerce Businesses</h2>
+                    <p>Prepare your business for technological changes and stay ahead of market trends. Get clear insights into your business objectives, strengths, weaknesses, and market position.</p>
+                    <h3>What we handle for you:</h3>
+                    <ul>
+                        <li>Google Ads management and optimization</li>
+                        <li>Data analysis from ads, search engines, and shop traffic</li>
+                        <li>Trend analysis based on Google and Pinterest data</li>
+                        <li>Technical setup and ongoing monitoring</li>
+                        <li>Strategic recommendations based on real performance data</li>
+                    </ul>
+                    <h3>What you get:</h3>
+                    <ul>
+                        <li>Clear business strategy tailored to your market</li>
+                        <li>Monthly data insights and recommendations</li>
+                        <li>Focus on high-purchase-intent traffic</li>
+                        <li>More time to focus on running your business</li>
+                    </ul>
+                    <h3>From £200 a month</h3>
                 </div>
-                
-                <div class="service-card">
-                    <h3 class="service-title">Community Building</h3>
-                    <p class="service-description">Connecting organizations with similar AI challenges and goals to share experiences and best practices.</p>
-                    <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+            
+            <!-- Custom Analytics Modal Popup -->
+            <div id="analytics-modal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <button class="modal-close" id="analytics-modal-close" aria-label="Close">&times;</button>
+                    <h2>Bespoke Analytics Solutions</h2>
+                    <p>Transform your organization's data into powerful decision-making tools. We develop custom analytics platforms that integrate with your existing systems and provide real-time insights specific to your industry and objectives.</p>
+                    <h3>What we build for you:</h3>
+                    <ul>
+                        <li>Custom dashboards and data visualization tools</li>
+                        <li>Automated reporting systems and alerts</li>
+                        <li>Data integration from multiple sources</li>
+                        <li>Real-time monitoring and analytics platforms</li>
+                        <li>Mobile-responsive interfaces for on-the-go access</li>
+                    </ul>
+                    <h3>What you get:</h3>
+                    <ul>
+                        <li>Tailored solutions designed for your specific needs</li>
+                        <li>Seamless integration with existing systems</li>
+                        <li>Training and ongoing technical support</li>
+                        <li>Scalable platforms that grow with your organization</li>
+                        <li>Clear data insights that drive better decisions</li>
+                    </ul>
+                    <h3>From £500 a month</h3>
+                </div>
+            </div>
+
+            <!-- AI Implementation Modal Popup -->
+            <div id="implementation-modal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <button class="modal-close" id="implementation-modal-close" aria-label="Close">&times;</button>
+                    <h2>Complete AI Adoption Support</h2>
+                    <p>Navigate the AI landscape with confidence. We assess your business needs, design practical implementation strategies, and provide comprehensive training to ensure your team can effectively use AI tools to drive growth and efficiency.</p>
+                    <h3>What we handle for you:</h3>
+                    <ul>
+                        <li>Comprehensive needs assessment and AI opportunity identification</li>
+                        <li>Custom implementation roadmap and timeline development</li>
+                        <li>AI tool selection and integration planning</li>
+                        <li>Staff training programs and ongoing support</li>
+                        <li>Change management and adoption strategies</li>
+                    </ul>
+                    <h3>What you get:</h3>
+                    <ul>
+                        <li>Clear understanding of AI opportunities in your business</li>
+                        <li>Step-by-step implementation plan tailored to your resources</li>
+                        <li>Confident team equipped with practical AI skills</li>
+                        <li>Ongoing support during transition and beyond</li>
+                        <li>Measurable improvements in efficiency and decision-making</li>
+                    </ul>
+                    <h3>From £1,000 a month</h3>
                 </div>
             </div>
             
@@ -123,15 +184,9 @@
             <h2 class="section-title">About DataBlocks</h2>
             
             <div class="about-content">
-                <div class="about-text">
+                <div class="about-text" style="text-align: center; width: 100%;">
                     <p>DataBlocks was founded with a mission to democratize access to AI technologies for small and medium enterprises and local government authorities. We believe that these organizations have unique needs and challenges when it comes to AI adoption, and our goal is to provide tailored support and resources.</p>
-                    <p>Our team consists of AI specialists, change management experts, and industry professionals who understand the specific contexts of SMEs and local governments. We work collaboratively with organizations to build their AI capabilities step by step, ensuring sustainable and responsible implementation.</p>
-                    <p>As a charity, we are committed to making AI accessible to all organizations, regardless of their size or resources. We offer tiered services to meet different needs and budgets, with some resources available free of charge.</p>
-                    <a href="#" class="btn btn-primary" style="margin-top: 20px;">Our Mission & Values</a>
-                </div>
-                
-                <div class="about-image">
-                    
+                    <a href="#" class="btn btn-secondary" style="margin-top: 20px; display: inline-block;">Meet the Team</a>
                 </div>
             </div>
             
@@ -172,10 +227,6 @@
                         <a href="#" class="btn btn-secondary">Read More</a>
                     </div>
                 </div>
-            </div>
-            
-            <div class="articles-cta">
-                <a href="#" class="btn btn-primary">View All Articles</a>
             </div>
             
             <!-- Animation Hook for Articles Section -->
@@ -252,29 +303,13 @@
                         DataBlocks
                     </div>
                     <p>Supporting SMEs and local governments on their AI journey.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-icon" aria-label="Facebook">FB</a>
-                        <a href="#" class="social-icon" aria-label="Twitter">TW</a>
-                        <a href="#" class="social-icon" aria-label="LinkedIn">LI</a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-nav">
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#articles">Articles</a></li>
-                        <li><a href="#">Resources</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
                 </div>
                 
                 <div class="footer-contact">
                     <h3>Contact Information</h3>
-                    <p class="contact-item">Email: <a href="mailto:info@datablocks.co.uk">info@datablocks.co.uk</a></p>
-                    <p class="contact-item">Phone: <a href="tel:+441234567890">+44 123 456 7890</a></p>
-                    <p class="contact-item">Address: London, UK</p>
+                    <p class="contact-item">Email: <a href="mailto:contact@datablocks.co.uk">contact@datablocks.co.uk</a></p>
+                    <p class="contact-item">Phone: <a href="tel:+447922140422">+447922140422</a></p>
+                    <p class="contact-item">Address: Portsmouth Rd, Long Ditton, Surbiton KT6 5QQ</p>
                 </div>
             </div>
             
