@@ -279,6 +279,17 @@ header {
     }
 }
 
+/* Mobile-only: prevent hero title/typewriter from overlapping subtitle */
+@media (max-width: 767px) {
+    .title-section {
+        height: auto;           /* allow section to grow with longest line */
+        min-height: 150px;      /* keep baseline spacing before typing starts */
+    }
+    .hero-subtitle {
+        margin-top: 12px;       /* add separation from animated title */
+    }
+}
+
 @media (min-width: 1024px) {
     .title-section {
         height: 200px;

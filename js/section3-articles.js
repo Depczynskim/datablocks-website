@@ -2,36 +2,44 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Remove any featured elements that might be dynamically added
     removeFeaturedElements();
-    
+
     // Get all article cards
     const articleCards = document.querySelectorAll('.article-card');
-    
-    // Add staggered entrance animation to article cards
+
+    // Prepare for scroll-triggered reveal (match Services behaviour)
     articleCards.forEach((card, index) => {
-        // Set initial state
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
-        // Clean any featured elements from this card
         cleanFeaturedFromCard(card);
-        
-        // Stagger the animations
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, 200 + (index * 150)); // Increasing delay for each card
+        card.setAttribute('data-index', String(index));
     });
-    
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const i = Number(el.getAttribute('data-index') || '0');
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, Math.min(i, 5) * 120);
+                revealObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+    articleCards.forEach(card => revealObserver.observe(card));
+
     // Add hover interactions for article image shapes
     setupArticleShapeAnimations();
-    
+
     // Make cards keyboard accessible
     enhanceArticleAccessibility();
-    
+
     // Optional: Track which articles receive the most interest
     trackArticleInteractions();
-    
+
     // Set up a mutation observer to remove any dynamically added featured elements
     setupFeaturedElementRemover();
 
