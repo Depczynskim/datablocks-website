@@ -29,8 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Calculate total width needed for all squares
     const totalWidth = SQUARE_COUNT * (squareSize + gap) - gap;
 
-    // Center the squares in the row
-    let startX = (window.innerWidth - totalWidth) / 2;
+    // Compute the starting X for a given row so squares are centered within
+    // that row's container (accounts for container width and left offset).
+    function getRowStartX(rowEl) {
+        const rect = rowEl.getBoundingClientRect();
+        const rowLeftInViewport = rect.left; // px from viewport's left
+        const centeredWithinRow = (rect.width - totalWidth) / 2;
+        return rowLeftInViewport + centeredWithinRow;
+    }
 
     // Create and position squares
     for (let i = 0; i < SQUARE_COUNT; i++) {
@@ -49,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const rowRect = rows[rowIndex].getBoundingClientRect();
         const rowTop = window.scrollY + rowRect.top;
+        const startX = getRowStartX(rows[rowIndex]);
         
         // Position squares according to their current order
         currentSquareOrder.forEach((squareIndex, positionIndex) => {
@@ -60,12 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Recalculate startX on window resize
-    function updateStartX() {
-        startX = (window.innerWidth - totalWidth) / 2;
+    // Reposition squares on window resize to remain centered in their row
+    function handleResize() {
+        positionSquaresInRow(currentSectionIndex);
     }
 
-    window.addEventListener('resize', updateStartX);
+    window.addEventListener('resize', handleResize);
 
     setTimeout(() => {
         positionSquaresInRow(0);
@@ -313,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const toRect = rows[toSection].getBoundingClientRect();
                 const toTop = window.scrollY + toRect.top;
+                const targetStartX = getRowStartX(rows[toSection]);
                 
                 const moveDuration = 200; // ms for each step of the animation
                 const newOrder = [...currentSquareOrder].reverse();
@@ -322,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const p = new Promise(res => {
                         const square = squares[squareId];
                         const finalOrderIndex = newOrder.indexOf(squareId);
-                        const finalLeft = startX + finalOrderIndex * (squareSize + gap);
+                        const finalLeft = targetStartX + finalOrderIndex * (squareSize + gap);
 
                         // Chain of animations for the HEAD square
                         if (orderIndex === 0) {
