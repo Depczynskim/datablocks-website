@@ -357,6 +357,11 @@ body .snake-game-section {
 @media (max-width: 767px) {
     .carousel-arrows {
         display: flex;
+        /* Center relative to the viewport, to match highlight squares centering */
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content; /* prevent container padding from shifting visual center */
     }
 }
 
