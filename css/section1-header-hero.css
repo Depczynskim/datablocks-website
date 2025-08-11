@@ -55,7 +55,7 @@ header {
     display: inline-block;
     width: 24px;
     height: 24px;
-    margin-right: 10px;
+    margin-right: 5px; /* half the original 10px space */
     background-color: var(--primary-red);
 }
 
@@ -315,6 +315,38 @@ body .snake-game-section {
     padding: 20px 0 80px 0;
     background-color: var(--bauhaus-white) !important;
     position: relative;
+}
+
+/* Mobile-only carousel arrows shared styles */
+.carousel-arrows {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.carousel-arrow {
+    appearance: none;
+    background: var(--bauhaus-white);
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+    border-radius: 6px;
+    width: 44px;
+    height: 36px;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.carousel-arrow:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 767px) {
+    .carousel-arrows {
+        display: flex;
+    }
 }
 
 .snake-description {

@@ -1,6 +1,6 @@
 /* Articles Section */
 .articles {
-    padding: 10px 0 20px 0;
+    padding: 10px 0 40px 0; /* match services bottom spacing */
     background-color: transparent;
 }
 
@@ -14,7 +14,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 0; /* align spacing with services */
 }
 
 .articles-cta {
@@ -35,9 +35,18 @@
     position: relative;  /* Ensure relative positioning */
 }
 
-/* Aggressively remove any FEATURED labels */
-.article-card::before,
-.article-card::after,
+/* Add left blue accent to match service cards */
+.article-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-blue);
+}
+
+/* Aggressively remove any FEATURED labels (but don't hide our accent ::before) */
 .article-card > *:first-child:not(.article-content),
 .article-card span,
 .article-card div:not(.article-content):not(.article-image),
@@ -88,16 +97,16 @@ div[style*="background: #0000ff"],
 }
 
 .article-content {
-    padding: 20px;
+    padding: 30px; /* match service card padding */
     display: flex;
     flex-direction: column;
     flex-grow: 1; /* Make content area expand to fill available space */
 }
 
 .article-title {
-    font-size: 20px;
+    font-size: 22px; /* match service title size */
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     line-height: 1.3;
 }
 
@@ -115,8 +124,12 @@ div[style*="background: #0000ff"],
 
 /* Button positioning at the bottom of the card */
 .article-content .btn {
-    align-self: flex-start; /* Align button to the left */
-    margin-top: auto; /* Push button to bottom when excerpt is short */
+    align-self: stretch; /* Full width like services */
+    width: 100%;
+    display: block;
+    box-sizing: border-box; /* include border in width to avoid right shift */
+    text-align: center;
+    margin-top: auto; /* Keep at bottom */
 }
 
 /* Focus and Active States */
@@ -142,11 +155,10 @@ div[style*="background: #0000ff"],
     position: relative;
 }
 
-/* Hide the blue "FEATURED" badge that appears on the first article card */
-.article-card:first-child::before,
+/* Hide any explicit FEATURED label element, but keep our left accent */
 .article-card:first-child .featured-label,
 .featured-label {
-    display: none !important; /* Ensure it never shows up */
+    display: none !important;
 }
 
 /* Responsive Styles */
@@ -181,6 +193,30 @@ div[style*="background: #0000ff"],
     .article-title {
         font-size: 22px;
     }
+}
+
+/* Mobile: horizontal scroll with snap for Articles */
+@media (max-width: 767px) {
+    .articles-grid {
+        grid-template-columns: none; /* disable fixed columns */
+        grid-auto-flow: column;
+        grid-auto-columns: 100%; /* one card per viewport width inside container */
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        gap: 20px; /* slightly tighter on mobile */
+        padding-bottom: 10px; /* space for hidden scrollbar area */
+    }
+
+    .article-card {
+        scroll-snap-align: start;
+    }
+
+    /* Hide scrollbars (Firefox + WebKit) */
+    .articles-grid { scrollbar-width: none; }
+    .articles-grid::-webkit-scrollbar { display: none; }
 }
 
 /* Dark Mode Styles */

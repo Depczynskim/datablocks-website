@@ -201,6 +201,30 @@
     }
 }
 
+/* Mobile: horizontal scroll with snap for Services */
+@media (max-width: 767px) {
+    .services-grid {
+        grid-template-columns: none; /* disable fixed columns */
+        grid-auto-flow: column;
+        grid-auto-columns: 100%; /* one card per viewport width inside container */
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        gap: 20px; /* slightly tighter on mobile */
+        padding-bottom: 10px; /* space for hidden scrollbar area */
+    }
+
+    .service-card {
+        scroll-snap-align: start;
+    }
+
+    /* Hide scrollbars (Firefox + WebKit) */
+    .services-grid { scrollbar-width: none; }
+    .services-grid::-webkit-scrollbar { display: none; }
+}
+
 /* Animation for service cards on hover */
 @media (prefers-reduced-motion: no-preference) {
     .service-card {

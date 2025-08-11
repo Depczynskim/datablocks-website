@@ -34,6 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up a mutation observer to remove any dynamically added featured elements
     setupFeaturedElementRemover();
+
+    // Mobile arrows for horizontal scroll (Articles)
+    setupCarouselArrows({
+        gridSelector: '.articles-grid',
+        prevSelector: '.articles-arrows .prev',
+        nextSelector: '.articles-arrows .next'
+    });
 });
 
 // Add interactive effects to the geometric shapes in article cards
@@ -181,7 +188,7 @@ function loadMoreArticles() {
                 <h3 class="article-title">${article.title}</h3>
                 <p class="article-excerpt">${article.excerpt}</p>
                 <p class="article-date">${article.date}</p>
-                <a href="#" class="btn btn-secondary">Read More</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
             </div>
         `;
         
@@ -358,4 +365,32 @@ function setupFeaturedElementRemover() {
         attributes: true,
         attributeFilter: ['class', 'style', 'data-featured']
     });
+}
+
+// Generic setup for mobile carousel arrows
+function setupCarouselArrows({ gridSelector, prevSelector, nextSelector }) {
+    const grid = document.querySelector(gridSelector);
+    const prev = document.querySelector(prevSelector);
+    const next = document.querySelector(nextSelector);
+    if (!grid || !prev || !next) return;
+
+    const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+
+    // Compute scroll amount: width of one card including gap
+    function getStep() {
+        const firstCard = grid.querySelector(':scope > *');
+        if (!firstCard) return grid.clientWidth;
+        const cardStyle = window.getComputedStyle(firstCard);
+        const gap = parseFloat(window.getComputedStyle(grid).columnGap || window.getComputedStyle(grid).gap || '0');
+        return firstCard.clientWidth + (isNaN(gap) ? 0 : gap);
+    }
+
+    function scrollByStep(direction) {
+        if (!isMobile()) return;
+        const step = getStep();
+        grid.scrollBy({ left: direction * step, behavior: 'smooth' });
+    }
+
+    prev.addEventListener('click', () => scrollByStep(-1));
+    next.addEventListener('click', () => scrollByStep(1));
 }
