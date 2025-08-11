@@ -29,14 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Calculate total width needed for all squares
     const totalWidth = SQUARE_COUNT * (squareSize + gap) - gap;
 
-    // Compute the starting X for a given row so squares are centered within
-    // that row's container (accounts for container width and left offset).
-    function getRowStartX(rowEl) {
-        const rect = rowEl.getBoundingClientRect();
-        const rowLeftInViewport = rect.left; // px from viewport's left
-        const centeredWithinRow = (rect.width - totalWidth) / 2;
-        return rowLeftInViewport + centeredWithinRow;
-    }
+    // Center the squares in the row
+    let startX = (window.innerWidth - totalWidth) / 2;
 
     // Create and position squares
     for (let i = 0; i < SQUARE_COUNT; i++) {
@@ -55,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const rowRect = rows[rowIndex].getBoundingClientRect();
         const rowTop = window.scrollY + rowRect.top;
-        const startX = getRowStartX(rows[rowIndex]);
         
         // Position squares according to their current order
         currentSquareOrder.forEach((squareIndex, positionIndex) => {
@@ -67,12 +60,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Reposition squares on window resize to remain centered in their row
-    function handleResize() {
-        positionSquaresInRow(currentSectionIndex);
+    // Recalculate startX on viewport change and recenter squares safely
+    function updateStartX() {
+        startX = (window.innerWidth - totalWidth) / 2;
     }
 
-    window.addEventListener('resize', handleResize);
+    let resizeDebounceTimer = null;
+    let pendingResizeRecenter = false;
+
+    function recenterSquaresIfIdle() {
+        // If animating, defer recenter until animation completes
+        if (isAnimating) {
+            pendingResizeRecenter = true;
+            return;
+        }
+        // Reposition squares in the current section to match updated startX
+        positionSquaresInRow(currentSectionIndex);
+        updateCurrentSquareOrder();
+    }
+
+    function handleViewportChange() {
+        if (resizeDebounceTimer) clearTimeout(resizeDebounceTimer);
+        resizeDebounceTimer = setTimeout(() => {
+            updateStartX();
+            recenterSquaresIfIdle();
+        }, 180);
+    }
+
+    window.addEventListener('resize', handleViewportChange, { passive: true });
+    window.addEventListener('orientationchange', handleViewportChange);
+    window.addEventListener('load', () => {
+        // Fonts and layout may finalize after DOMContentLoaded; ensure proper centering
+        updateStartX();
+        recenterSquaresIfIdle();
+    }, { once: true });
 
     setTimeout(() => {
         positionSquaresInRow(0);
@@ -320,7 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const toRect = rows[toSection].getBoundingClientRect();
                 const toTop = window.scrollY + toRect.top;
-                const targetStartX = getRowStartX(rows[toSection]);
                 
                 const moveDuration = 200; // ms for each step of the animation
                 const newOrder = [...currentSquareOrder].reverse();
@@ -330,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const p = new Promise(res => {
                         const square = squares[squareId];
                         const finalOrderIndex = newOrder.indexOf(squareId);
-                        const finalLeft = targetStartX + finalOrderIndex * (squareSize + gap);
+                        const finalLeft = startX + finalOrderIndex * (squareSize + gap);
 
                         // Chain of animations for the HEAD square
                         if (orderIndex === 0) {
@@ -406,7 +426,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         sq.style.transition = '';
                     });
                     
-                    positionSquaresInRow(toSection); 
+                    positionSquaresInRow(toSection);
+                    // If a resize occurred mid-animation, perform a final recenter now
+                    if (pendingResizeRecenter) {
+                        pendingResizeRecenter = false;
+                        updateStartX();
+                        positionSquaresInRow(toSection);
+                        updateCurrentSquareOrder();
+                    }
                     resolve();
                 });
 
