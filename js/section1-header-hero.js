@@ -61,6 +61,11 @@ function initTypewriter() {
         "harness emerging technologies with confidence",
         "be part of the future"
     ];
+
+    // Reserve stable vertical space to avoid layout shift on mobile
+    reserveTypewriterSpace(typewriterElement, phrases);
+    // Recalculate on resize/orientation change
+    attachTypewriterResizeHandler(typewriterElement, phrases);
     
     let phraseIndex = 0;
     let charIndex = 0;
@@ -103,6 +108,61 @@ function initTypewriter() {
     
     // Start the effect with a slight delay after page load
     setTimeout(typeWriter, 1000);
+}
+
+/**
+ * Measure the tallest possible height of the typewriter element across all phrases
+ * and apply it as min-height so that the layout below does not shift while typing.
+ */
+function reserveTypewriterSpace(typewriterElement, phrases) {
+    try {
+        const titleSection = typewriterElement.closest('.title-section');
+        if (!titleSection) return;
+
+        // Create a hidden clone to measure text wrapping accurately at current width
+        const clone = typewriterElement.cloneNode(false);
+        clone.id = '';
+        clone.style.position = 'absolute';
+        clone.style.visibility = 'hidden';
+        clone.style.pointerEvents = 'none';
+        clone.style.left = '-9999px';
+        clone.style.top = '0';
+        // Fix clone width to the current rendered width to match wrapping
+        const currentWidth = typewriterElement.getBoundingClientRect().width || typewriterElement.offsetWidth;
+        if (currentWidth > 0) {
+            clone.style.width = currentWidth + 'px';
+        }
+        titleSection.appendChild(clone);
+
+        let maxHeight = 0;
+        for (const phrase of phrases) {
+            clone.textContent = phrase + '_';
+            // Force reflow and measure
+            const h = clone.getBoundingClientRect().height;
+            if (h > maxHeight) maxHeight = h;
+        }
+
+        // Clean up clone
+        titleSection.removeChild(clone);
+
+        if (maxHeight > 0) {
+            typewriterElement.style.minHeight = Math.ceil(maxHeight) + 'px';
+        }
+    } catch (e) {
+        // Non-fatal; keep going without reservation
+        console.warn('reserveTypewriterSpace failed:', e);
+    }
+}
+
+function attachTypewriterResizeHandler(typewriterElement, phrases) {
+    let resizeTimer = null;
+    const recalc = () => reserveTypewriterSpace(typewriterElement, phrases);
+    window.addEventListener('resize', () => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(recalc, 150);
+    });
+    // In case web fonts load after DOMContentLoaded
+    window.addEventListener('load', recalc, { once: true });
 }
 
 function initAnimationHooks() {
