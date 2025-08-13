@@ -9,4 +9,35 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+[[redirects]]
+  # Redirect any alternate hosts to the primary apex domain
+  from = "/*"
+  to = "https://datablocks.co.uk/:splat"
+  status = 301
+  force = true
+  conditions = { Host = ["www.datablocks.co.uk", "datablocks.netlify.app", "www.datablocks.netlify.app"] }
+
+[[headers]]
+  # Site-wide security headers
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  # Long-term caching for JavaScript
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  # Long-term caching for CSS
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 
