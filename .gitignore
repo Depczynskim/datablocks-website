@@ -3,3 +3,6 @@
 
 # Local backup snapshot (do not commit)
 data-blocks-website - 29 Jul/
+
+# Local Netlify folder
+.netlify

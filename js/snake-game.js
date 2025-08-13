@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('startGame');
     const pauseButton = document.getElementById('pauseGame');
     const scoreElement = document.getElementById('scoreValue');
+    const btnUp = document.getElementById('snakeUp');
+    const btnDown = document.getElementById('snakeDown');
+    const btnLeft = document.getElementById('snakeLeft');
+    const btnRight = document.getElementById('snakeRight');
 
     if (!startButton || !pauseButton || !scoreElement) {
         console.error('Required elements not found:', {
@@ -223,6 +227,32 @@ document.addEventListener('DOMContentLoaded', () => {
         pauseButton.textContent = isPaused ? 'Resume' : 'Pause';
         console.log('Game paused:', isPaused);
     });
+
+    // Helper to update direction with safety against reversing
+    function setDirection(next) {
+        if (!gameLoop) return;
+        if ((next === 'up' && direction !== 'down') ||
+            (next === 'down' && direction !== 'up') ||
+            (next === 'left' && direction !== 'right') ||
+            (next === 'right' && direction !== 'left')) {
+            nextDirection = next;
+        }
+    }
+
+    // Touch/click mobile controls
+    if (btnUp && btnDown && btnLeft && btnRight) {
+        const handle = (dir) => (e) => { e.preventDefault(); setDirection(dir); };
+        btnUp.addEventListener('click', handle('up'));
+        btnDown.addEventListener('click', handle('down'));
+        btnLeft.addEventListener('click', handle('left'));
+        btnRight.addEventListener('click', handle('right'));
+
+        // Also support touchstart to reduce tap delay on some browsers
+        btnUp.addEventListener('touchstart', handle('up'), { passive: false });
+        btnDown.addEventListener('touchstart', handle('down'), { passive: false });
+        btnLeft.addEventListener('touchstart', handle('left'), { passive: false });
+        btnRight.addEventListener('touchstart', handle('right'), { passive: false });
+    }
 
     // Handle keyboard controls
     document.addEventListener('keydown', (e) => {

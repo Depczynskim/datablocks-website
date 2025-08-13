@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+

@@ -64,45 +64,28 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
     
-    // Simulate form submission
+    // Submit form via Netlify Forms (no JS fetch; allow native POST)
     function submitForm() {
-        // Get form data
-        const formData = new FormData(contactForm);
-        const formDataObj = {};
-        
-        // Convert FormData to object
-        formData.forEach((value, key) => {
-            formDataObj[key] = value;
-        });
-        
-        // In a real application, you would send this data to a server
-        console.log('Form submitted with data:', formDataObj);
-        
-        // Show loading state
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.textContent;
         submitButton.textContent = 'Sending...';
         submitButton.disabled = true;
-        
-        // Simulate a network request delay
-        setTimeout(() => {
-            // Hide form and show success message
-            contactForm.style.display = 'none';
-            formSuccess.style.display = 'block';
-            formSuccess.classList.add('show');
-            
-            // Optional: Reset form for future use
-            contactForm.reset();
-            
-            // Reset button state
-            submitButton.textContent = originalButtonText;
-            submitButton.disabled = false;
-            
-            // Remove validation classes
-            formInputs.forEach(input => {
-                input.classList.remove('is-valid', 'is-invalid');
-            });
-        }, 1500);
+
+        // Let the native POST submit the form; show success after navigation-less submission in Netlify dev or fallback
+        // If running locally without Netlify, simulate success
+        if (!('netlify' in contactForm.dataset)) {
+            setTimeout(() => {
+                contactForm.style.display = 'none';
+                formSuccess.style.display = 'block';
+                formSuccess.classList.add('show');
+                contactForm.reset();
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                formInputs.forEach(input => input.classList.remove('is-valid', 'is-invalid'));
+            }, 800);
+        } else {
+            contactForm.submit();
+        }
     }
 });
 

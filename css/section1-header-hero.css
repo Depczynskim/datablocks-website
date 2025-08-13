@@ -332,7 +332,7 @@ header {
 
 /* Snake Game Section */
 body .snake-game-section {
-    padding: 20px 0 80px 0;
+    padding: 20px 0 40px 0;
     background-color: var(--bauhaus-white) !important;
     position: relative;
 }
@@ -383,6 +383,9 @@ body .snake-game-section {
     color: var(--bauhaus-black);
 }
 
+.snake-desc-desktop { display: inline; }
+.snake-desc-mobile { display: none; }
+
 .game-container {
     max-width: 800px;
     margin: 0 auto;
@@ -430,4 +433,28 @@ body .snake-game-section {
         flex-direction: column;
         gap: 10px;
     }
+    body .snake-game-section {
+        padding-bottom: 30px;
+    }
+}
+
+/* Mobile-friendly layout for snake touch controls, reusing carousel-arrow styles */
+.snake-touch-controls {
+    display: none;
+    margin-top: 8px;
+}
+
+.snake-touch-controls .snake-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 6px 0;
+}
+
+@media (max-width: 767px) {
+    .snake-touch-controls {
+        display: block;
+    }
+    .snake-desc-desktop { display: none; }
+    .snake-desc-mobile { display: inline; }
 }

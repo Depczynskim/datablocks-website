@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Message Sent | DataBlocks</title>
+    <link rel="stylesheet" href="css/section1-header-hero.css" />
+    <link rel="stylesheet" href="css/section4-contact-footer.css" />
+    <link rel="stylesheet" href="css/animation.css" />
+    <style>
+        .success-wrap { max-width: 720px; margin: 80px auto; padding: 32px 24px; background: var(--bauhaus-white); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); }
+        .success-wrap::before { content: ''; position: absolute; width: 5px; height: 100%; left: 0; top: 0; background: var(--primary-blue); border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+        .success-title { font-size: 28px; font-weight: 700; margin: 0 0 10px; }
+        .success-text { color: #555; margin: 0 0 20px; }
+        .btn-home { display: inline-block; padding: 12px 20px; border: 2px solid var(--primary-blue); color: var(--primary-blue); text-decoration: none; border-radius: 6px; }
+        .btn-home:hover { background: var(--primary-blue); color: var(--bauhaus-white); }
+    </style>
+    <script>
+        // Redirect back home after a short delay as a nice touch
+        setTimeout(() => { window.location.href = '/'; }, 6000);
+    </script>
+</head>
+<body>
+    <div class="container success-wrap" style="position: relative;">
+        <h1 class="success-title">Message sent</h1>
+        <p class="success-text">Thanks for reaching out. We’ll get back to you at the email you provided. If it’s urgent, email us at <a href="mailto:contact@datablocks.co.uk">contact@datablocks.co.uk</a>.</p>
+        <a href="/" class="btn-home">Back to Home</a>
+    </div>
+</body>
+</html>
+

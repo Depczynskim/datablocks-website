@@ -1,13 +1,30 @@
 /* Contact Section */
 .contact {
-    padding: 80px 0;
+    padding: 40px 0 60px 0;
     background-color: var(--bauhaus-white);
 }
 
 .contact-form {
-    max-width: 600px;
+    max-width: 720px;
     margin: 0 auto;
     position: relative;
+    background: var(--bauhaus-white);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    padding: 24px 20px;
+}
+
+/* Left blue accent to match cards */
+.contact-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-blue);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 .form-group {
@@ -16,22 +33,24 @@
 
 .form-label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
+    margin-bottom: 6px;
+    font-weight: 700;
 }
 
 .form-control {
     width: 100%;
-    padding: 12px;
+    padding: 12px 14px;
     border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
     font-family: 'Roboto Mono', monospace;
-    transition: border-color var(--transition-speed) ease;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
 
 .form-control:focus {
     outline: none;
     border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px rgba(0, 0, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(0, 0, 255, 0.12);
 }
 
 textarea.form-control {
@@ -80,8 +99,8 @@ textarea.form-control {
 /* Animation hook */
 .contact .highlight-row {
     display: flex;
-    height: 40px;
-    margin: 2rem 0;
+    height: 10px;
+    margin: 0;
     position: relative;
 }
 
