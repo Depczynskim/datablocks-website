@@ -10,6 +10,15 @@
     --transition-speed: 0.3s;
 }
 
+/* Global layout resets to prevent horizontal overflow */
+html {
+    overflow-x: hidden; /* Ensure iOS Safari also hides horizontal overflow */
+}
+
+* , *::before, *::after {
+    box-sizing: border-box; /* Prevent borders/padding from causing overflow */
+}
+
 body {
     font-family: 'Roboto Mono', monospace;
     line-height: 1.6;
@@ -357,11 +366,13 @@ body .snake-game-section {
 @media (max-width: 767px) {
     .carousel-arrows {
         display: flex;
-        /* Center relative to the viewport, to match highlight squares centering */
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-        width: fit-content; /* prevent container padding from shifting visual center */
+        position: relative; /* keep normal flow */
+        left: auto;         /* avoid offset that can cause overflow */
+        transform: none;    /* rely on flex centering instead */
+        width: 100%;        /* occupy container width safely */
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center; /* explicit centering */
     }
 }
 

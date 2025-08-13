@@ -5,11 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add hover/interaction effects to service cards
     serviceCards.forEach((card, index) => {
-        // Add slight delay to card appearance for staggered effect
-        setTimeout(() => {
-            card.classList.add('card-visible');
-        }, 100 * index);
-        
         // Optional: Track which services get the most interest
         card.querySelector('.btn').addEventListener('click', function(e) {
             // You could add analytics tracking here
@@ -117,46 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add scroll-based reveal animations
-document.addEventListener('DOMContentLoaded', function() {
-    // Elements to animate on scroll
-    const animatedElements = [
-        ...document.querySelectorAll('.service-card'),
-        ...document.querySelectorAll('.about-text p'),
-        document.querySelector('.about-box')
-    ].filter(Boolean); // Remove null elements
-    
-    // Set initial state (invisible)
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-    
-    // Create observer
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Stagger the animation slightly for each element
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, 100);
-                
-                // Stop observing once animation is triggered
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.2, // Trigger when 20% of the element is visible
-        rootMargin: '0px 0px -50px 0px' // Slight offset to trigger before fully in view
-    });
-    
-    // Start observing elements
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
-});
+// Scroll-based reveal animations removed to keep section static and visible immediately
 
 // Set up animation hooks for this section
 document.addEventListener('DOMContentLoaded', function() {

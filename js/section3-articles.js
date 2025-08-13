@@ -6,30 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all article cards
     const articleCards = document.querySelectorAll('.article-card');
 
-    // Prepare for scroll-triggered reveal (match Services behaviour)
-    articleCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    // Make articles visible immediately (no scroll-triggered reveal)
+    articleCards.forEach((card) => {
         cleanFeaturedFromCard(card);
-        card.setAttribute('data-index', String(index));
+        card.style.opacity = '';
+        card.style.transform = '';
+        card.style.transition = '';
     });
-
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-                const i = Number(el.getAttribute('data-index') || '0');
-                setTimeout(() => {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                }, Math.min(i, 5) * 120);
-                revealObserver.unobserve(el);
-            }
-        });
-    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
-
-    articleCards.forEach(card => revealObserver.observe(card));
 
     // Add hover interactions for article image shapes
     setupArticleShapeAnimations();
@@ -183,12 +166,9 @@ function loadMoreArticles() {
     
     // Create and add new article cards to the grid
     moreArticles.forEach(article => {
-        // Create new article card
+        // Create new article card (visible immediately)
         const card = document.createElement('div');
         card.className = 'article-card';
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         
         // Add card content (no image or featured label)
         card.innerHTML = `
@@ -202,12 +182,6 @@ function loadMoreArticles() {
         
         // Add to grid
         articlesGrid.appendChild(card);
-        
-        // Animate in with a delay
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, 100);
     });
     
     // Re-apply interaction effects to new cards
@@ -230,64 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Intersection Observer for Scroll Animations
-
-// Add scroll-based reveal animations for articles section
-document.addEventListener('DOMContentLoaded', function() {
-    // Create observer for section title
-    const sectionTitle = document.querySelector('.articles .section-title');
-    
-    if (sectionTitle) {
-        // Set initial state
-        sectionTitle.style.opacity = '0';
-        sectionTitle.style.transform = 'translateY(20px)';
-        sectionTitle.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
-        // Create observer
-        const titleObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    titleObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        // Start observing
-        titleObserver.observe(sectionTitle);
-    }
-    
-    // Create observer for CTA button
-    const ctaButton = document.querySelector('.articles-cta .btn');
-    
-    if (ctaButton) {
-        // Set initial state
-        ctaButton.style.opacity = '0';
-        ctaButton.style.transform = 'translateY(20px)';
-        ctaButton.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
-        // Create observer
-        const ctaObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    ctaObserver.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        // Start observing
-        ctaObserver.observe(ctaButton);
-    }
-});
+// Scroll-based title/CTA animations removed to keep section static
 
 // Function to remove any featured elements from the page
 function removeFeaturedElements() {
