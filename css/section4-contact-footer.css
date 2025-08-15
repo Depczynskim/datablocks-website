@@ -4,6 +4,19 @@
     background-color: var(--bauhaus-white);
 }
 
+.contact-note {
+    max-width: 720px;
+    margin: 0 auto 16px;
+    padding: 14px 16px;
+    border-left: 5px solid var(--primary-blue);
+    background: #f3f8ff;
+    border-radius: 6px;
+}
+
+.contact-note p {
+    margin: 0;
+}
+
 .contact-form {
     max-width: 720px;
     margin: 0 auto;
