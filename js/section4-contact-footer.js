@@ -64,15 +64,45 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
     
-    // Submit form via Formspree
+    // Submit form via Formspree using Ajax (no redirect)
     function submitForm() {
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.textContent;
         submitButton.textContent = 'Sending...';
         submitButton.disabled = true;
 
-        // Submit the form - Formspree will handle the redirect to success.html
-        contactForm.submit();
+        // Prepare form data
+        const formData = new FormData(contactForm);
+
+        // Submit via fetch to Formspree
+        fetch(contactForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Success - show custom success message
+                contactForm.style.display = 'none';
+                formSuccess.style.display = 'block';
+                formSuccess.classList.add('show');
+                contactForm.reset();
+                formInputs.forEach(input => input.classList.remove('is-valid', 'is-invalid'));
+            } else {
+                throw new Error('Form submission failed');
+            }
+        })
+        .catch(error => {
+            // Error handling
+            alert('Sorry, there was an error sending your message. Please try again or email us directly at contact@datablocks.co.uk');
+        })
+        .finally(() => {
+            // Reset button
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+        });
     }
 });
 
