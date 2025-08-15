@@ -8,9 +8,9 @@
     max-width: 720px;
     margin: 0 auto 16px;
     padding: 14px 16px;
-    border-left: 5px solid var(--primary-blue);
-    background: #f3f8ff;
-    border-radius: 6px;
+    background: var(--bauhaus-white);
+    border-left: none;
+    border-radius: 8px;
 }
 
 .contact-note p {
@@ -324,6 +324,11 @@ body.dark-mode .form-label {
 body.dark-mode .form-success {
     background-color: #0f1a33; /* deep blue tint for dark mode */
     border-color: var(--primary-blue);
+}
+
+/* Dark mode for contact note */
+body.dark-mode .contact-note {
+    background-color: #333;
 }
 
 body.dark-mode .form-success h3,
