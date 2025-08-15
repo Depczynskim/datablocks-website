@@ -64,28 +64,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
     
-    // Submit form via Netlify Forms (no JS fetch; allow native POST)
+    // Submit form via Formspree
     function submitForm() {
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const originalButtonText = submitButton.textContent;
         submitButton.textContent = 'Sending...';
         submitButton.disabled = true;
 
-        // Let the native POST submit the form; show success after navigation-less submission in Netlify dev or fallback
-        // If running locally without Netlify, simulate success
-        if (!('netlify' in contactForm.dataset)) {
-            setTimeout(() => {
-                contactForm.style.display = 'none';
-                formSuccess.style.display = 'block';
-                formSuccess.classList.add('show');
-                contactForm.reset();
-                submitButton.textContent = originalButtonText;
-                submitButton.disabled = false;
-                formInputs.forEach(input => input.classList.remove('is-valid', 'is-invalid'));
-            }, 800);
-        } else {
-            contactForm.submit();
-        }
+        // Submit the form - Formspree will handle the redirect to success.html
+        contactForm.submit();
     }
 });
 
