@@ -74,13 +74,13 @@ textarea.form-control {
 }
 
 .form-control:valid:not(:placeholder-shown) {
-    border-color: #4CAF50;
+    border-color: var(--primary-blue);
 }
 
 /* Form success message */
 .form-success {
-    background-color: #f8fffa;
-    border: 1px solid #4CAF50;
+    background-color: #f3f8ff; /* subtle blue tint to match brand */
+    border: 1px solid var(--primary-blue);
     border-radius: 4px;
     padding: 30px;
     text-align: center;
@@ -93,7 +93,7 @@ textarea.form-control {
     justify-content: center;
     width: 60px;
     height: 60px;
-    background-color: #4CAF50;
+    background-color: var(--primary-blue);
     color: white;
     border-radius: 50%;
     font-size: 30px;
@@ -103,7 +103,7 @@ textarea.form-control {
 .form-success h3 {
     font-size: 24px;
     margin-bottom: 10px;
-    color: #2E7D32;
+    color: var(--primary-blue);
 }
 
 /* Animation hook */
@@ -309,8 +309,8 @@ body.dark-mode .form-label {
 }
 
 body.dark-mode .form-success {
-    background-color: #1e3620;
-    border-color: #2E7D32;
+    background-color: #0f1a33; /* deep blue tint for dark mode */
+    border-color: var(--primary-blue);
 }
 
 body.dark-mode .form-success h3,
