@@ -52,7 +52,7 @@ header {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 700;
     color: var(--bauhaus-black);
     display: flex;
@@ -62,8 +62,8 @@ header {
 
 .logo-square {
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     margin-right: 5px; /* half the original 10px space */
     background-color: var(--primary-red);
 }
